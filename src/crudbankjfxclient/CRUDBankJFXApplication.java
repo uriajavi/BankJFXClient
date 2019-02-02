@@ -5,10 +5,12 @@
  */
 package crudbankjfxclient;
 
+import clientside.controller.CustomerManager;
+import clientside.controller.CustomerManagerFactory;
+import crudbankjfxclient.view.AccountMovementsController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -19,12 +21,22 @@ public class CRUDBankJFXApplication extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("view/AccountMovementView.fxml"));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
-        stage.show();
+        //Get CustomerManager
+        CustomerManager manager=CustomerManagerFactory.getCustomerManager();
+        //Load view
+        FXMLLoader loader=
+                new FXMLLoader(getClass().getResource("view/AccountMovementsView.fxml"));
+        Parent root = loader.load();
+        //Set manager for UI controller
+        AccountMovementsController controller=
+                (AccountMovementsController)loader.getController();
+        controller.setManager(manager);
+        manager.setServerName("localhost");
+        controller.setStage(stage);
+        //hardcoded customer id
+        Long customerId=new Long(102263301);
+        controller.setCustomerId(customerId);
+        controller.initStage(root);
     }
 
     /**
