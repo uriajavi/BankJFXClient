@@ -8,6 +8,7 @@ package crudbankjfxclient;
 import clientside.controller.CustomerManager;
 import clientside.controller.CustomerManagerFactory;
 import crudbankjfxclient.view.AccountMovementsController;
+import crudbankjfxclient.view.CustomerDataController;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -32,19 +33,23 @@ public class CRUDBankJFXApplication extends Application {
         //Get CustomerManager
         CustomerManager manager=CustomerManagerFactory.getCustomerManager();
         //Load view
+        //FXMLLoader loader=
+        //        new FXMLLoader(getClass().getResource("view/AccountMovementsView.fxml"));
         FXMLLoader loader=
-                new FXMLLoader(getClass().getResource("view/AccountMovementsView.fxml"));
+                new FXMLLoader(getClass().getResource("view/CustomerDataView.fxml"));
         Parent root = loader.load();
         //Set manager for UI controller
-        AccountMovementsController controller=
-                (AccountMovementsController)loader.getController();
+        //AccountMovementsController controller=
+        //        (AccountMovementsController)loader.getController();
+        CustomerDataController controller=
+                (CustomerDataController)loader.getController();
         controller.setManager(manager);
         //set server name
         manager.setServerName(SERVER_NAME);
         controller.setStage(stage);
         //set customer 
-        Long customerId=new Long(CUSTOMER_ID);
-        controller.setCustomerId(customerId);
+        //Long customerId=new Long(CUSTOMER_ID);
+        //controller.setCustomerId(customerId);
         controller.initStage(root);
     }
 
