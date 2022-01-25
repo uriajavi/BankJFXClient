@@ -84,7 +84,7 @@ public class ClientAccountsController {
             //set scene and view DOM root
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setTitle("Client's accounts and balances");
+            stage.setTitle("Customer's accounts and balances");
             stage.setResizable(false);
             //set cell factory values for table columns
             tcAccountNumber.setCellValueFactory(new PropertyValueFactory<>("id"));
