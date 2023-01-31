@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="580.0" prefWidth="800.0" 
+            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="crudbankjfxclient.view.DepositsAndPaymentsController">
+   <children>
+      <Label fx:id="lbCustomer" layoutX="53.0" layoutY="25.0" prefHeight="25.0" 
+             prefWidth="703.0" text="CUSTOMER #  &amp; name ">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbAccount" layoutX="56.0" layoutY="61.0" text="Account" />
+      <ComboBox fx:id="cbAccount" layoutX="52.0" layoutY="79.0" prefHeight="26.0" prefWidth="394.0" />
+      <Label fx:id="lblOperation" layoutX="56.0" layoutY="139.0" text="Operation" />
+      <ComboBox fx:id="cbOperation" layoutX="52.0" layoutY="158.0" prefHeight="25.0" prefWidth="261.0" />
+      <Label fx:id="lblAmount" layoutX="361.0" layoutY="139.0" text="Amount" />
+      <TextField fx:id="tfAmount" layoutX="361.0" layoutY="158.0" prefHeight="25.0" prefWidth="212.0" />
+      <Button fx:id="btMake" layoutX="606.0" layoutY="158.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Make Deposit" />
+      <Label layoutX="50.0" layoutY="202.0" text="Movements">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tbMovements" layoutX="53.0" layoutY="227.0" prefHeight="275.0" prefWidth="703.0">
+        <columns>
+          <TableColumn fx:id="tcDate" prefWidth="144.0" text="Date" />
+          <TableColumn fx:id="tcDescription" prefWidth="409.0" text="Description" />
+          <TableColumn fx:id="tcAmount" prefWidth="149.0" text="Amount" />
+        </columns>
+      </TableView>
+      <Button fx:id="btExit" layoutX="56.0" layoutY="520.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Exit" />
+      <Label fx:id="lblAccountBalance" layoutX="470.0" layoutY="525.0" text="Account Balance" />
+      <TextField fx:id="tfAccountBalance" editable="false" layoutX="606.0" layoutY="520.0" prefHeight="26.0" prefWidth="150.0" />
+   </children>
+</AnchorPane>

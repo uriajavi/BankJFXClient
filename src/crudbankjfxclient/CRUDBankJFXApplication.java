@@ -7,7 +7,7 @@ package crudbankjfxclient;
 
 import clientside.controller.CustomerManager;
 import clientside.controller.CustomerManagerFactory;
-import crudbankjfxclient.view.AccountMovementsController;
+import crudbankjfxclient.view.DepositsAndPaymentsController;
 import crudbankjfxclient.view.ClientAccountsController;
 import crudbankjfxclient.view.CustomerDataController;
 import java.util.ResourceBundle;
@@ -33,20 +33,20 @@ public class CRUDBankJFXApplication extends Application {
     public void start(Stage stage) throws Exception {
         //Get CustomerManager
         CustomerManager manager=CustomerManagerFactory.getCustomerManager();
-        //Load view
-        FXMLLoader loader=
-                new FXMLLoader(getClass().getResource("view/ClientAccountsView.fxml"));
-        Parent root = loader.load();
-        //Set manager for UI controller
-        ClientAccountsController controller=
-                (ClientAccountsController)loader.getController();
-        controller.setManager(manager);
         //set server name
         manager.setServerName(SERVER_NAME);
+        //Load view
+        FXMLLoader loader=
+                new FXMLLoader(getClass().getResource("/crudbankjfxclient/view/DepositsAndPaymentsView.fxml"));
+        Parent root = loader.load();
+        //Get view controller and set manager for the controller in order to use it
+        DepositsAndPaymentsController controller=
+                (DepositsAndPaymentsController)loader.getController();
+        controller.setManager(manager);
         controller.setStage(stage);
         //set customer 
-        //Long customerId=new Long(CUSTOMER_ID);
-        //controller.setCustomerId(customerId);
+        Long customerId=new Long(CUSTOMER_ID);
+        controller.setCustomerId(customerId);
         controller.initStage(root);
     }
 
