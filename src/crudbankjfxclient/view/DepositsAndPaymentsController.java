@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package crudbankjfxclient.view;
 
 import clientside.model.Account;
@@ -39,57 +35,107 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
- *
- * @author javi
+ * Banking application deposits and payments window controller. It contains window's 
+ * controls event handlers for designed behavior.
+ * @author Javier Martin Uria
  */
 public class DepositsAndPaymentsController {
+    /**
+     * Label for customer identification field.
+     */
     @FXML
     private Label lbCustomer;
+    /**
+     * Combo for customer's accounts.
+     */
     @FXML
     private ComboBox cbAccount;
+    /**
+     * Combo for movement's operation type: deposit or payment.
+     */
     @FXML
     private ComboBox cbOperation;
+    /**
+     * Entry field to enter amount for the movement.
+     */
     @FXML
     private TextField tfAmount;
+    /**
+     * Action control to make the movement.
+     */
     @FXML
     private Button btMake;
+    /**
+     * Table showing all movements made to the selected account.
+     */
     @FXML
     private TableView tbMovements;
+    /**
+     * Table column for movement's date.
+     */
     @FXML
     private TableColumn tcDate;
+    /**
+     * Table column for movement's type.
+     */
     @FXML
     private TableColumn tcDescription;
+    /**
+     * Table column for movement's amount.
+     */
     @FXML
     private TableColumn tcAmount;
+    /**
+     * A button to exit application.
+     */
     @FXML
     private Button btExit;
+    /**
+     * Output field showing balance for selected account.
+     */
     @FXML
     private TextField tfAccountBalance;
-  
+    /**
+     * Business logic object. 
+     */
     private CustomerManager manager;
-    
+    /**
+     * Customer's id for operations.
+     */
     private Long customerId;
-    
+    /**
+     * Primary application stage.
+     */
     private Stage stage;
-
+    /**
+     * Package logger.
+     */
     private final Logger LOGGER=Logger.getLogger("crudbankjfxclient.view");
-
+    /**
+     * Business logic object setter.
+     * @param manager the business object passed from application's class.
+     */
     public void setManager(CustomerManager manager) {
         this.manager=manager;
     }
     /**
+     * Customer id setter.
      * @param customerId the customerId to set
      */
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
     /**
+     * Stage setter.
      * @param stage the stage to set
      */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-    
+    /**
+     * Initializing method for the vindow.
+     * @param root FXML document graph.
+     */
     public void initStage(Parent root){
         try{
             LOGGER.info("Initializing deposits and payments window.");
@@ -165,7 +211,12 @@ public class DepositsAndPaymentsController {
             LOGGER.log(Level.SEVERE,errorMsg);            
         }    
     }
-    
+    /**
+     * Accounts combo selected item property change event handler.
+     * @param observable the selected item property from the combo's selectionModel.
+     * @param oldValue the account previously selected.
+     * @param newValue the new account selected.
+     */
     public void handleOnSelectAccount(ObservableValue<Object> observable,
                                         Object oldValue,Object newValue){
         try{
@@ -193,7 +244,12 @@ public class DepositsAndPaymentsController {
             LOGGER.log(Level.SEVERE,errorMsg);            
         } 
     }
-
+    /**
+     * Operations combo selected item property change event handler.
+     * @param observable the selected item property from the combo's selectionModel.
+     * @param oldValue the movement type previously selected.
+     * @param newValue the new movement type selected.
+     */
     public void handleOnSelectOperation(ObservableValue<Object> observable,
                                         Object oldValue,Object newValue){
         try{
@@ -205,7 +261,10 @@ public class DepositsAndPaymentsController {
             LOGGER.log(Level.SEVERE,errorMsg);            
         } 
     }
-    
+    /**
+     * Make button action event handler.
+     * @param event An ActionEvent object.
+     */
     public void handleOnActionMake(Event event){
         try{
             //Ask user for confirmation on exit
@@ -214,9 +273,12 @@ public class DepositsAndPaymentsController {
                                 ButtonType.OK,ButtonType.CANCEL);
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK){
-            //If OK 
+            //If OK
+                //Validate Amount is not empty
+                if(tfAmount.getText().trim().isEmpty())
+                    throw new Exception("Amount is required to do this operation");
                 //Validate Amount is Double and positive
-                Double amount=new Double(tfAmount.getText());
+                Double amount=new Double(tfAmount.getText().trim());
                 if (amount <= 0.0d) throw new Exception("Amount must be greater than 0.0!!");
                 Account selectedAccount=(Account)cbAccount.getSelectionModel()
                                                            .getSelectedItem();
@@ -257,18 +319,25 @@ public class DepositsAndPaymentsController {
                 List<Account> accounts=customer.getAccounts();
                 cbAccount.setItems(FXCollections.observableList(accounts));
                 cbAccount.getSelectionModel().select(selectedAccount);
+                LOGGER.info("Movement made on account.");
+
             }
         }catch(NumberFormatException e){
+            //This exception is thrown when constructing Double number form Amount field
             String errorMsg="Amount must be a real positive number!!";    
             this.showErrorAlert(errorMsg);
-            LOGGER.log(Level.FINE,errorMsg);            
+            LOGGER.severe(errorMsg);            
         }catch(Exception e){
+            //Default exception handler
             String errorMsg="Error making operation:\n" +e.getMessage();    
             this.showErrorAlert(errorMsg);
-            LOGGER.log(Level.SEVERE,errorMsg);            
+            LOGGER.severe(errorMsg);            
         }
     }   
-    
+    /**
+     * Exit button event handler.
+     * @param event An ActionEvent object.
+     */
     public void handleOnActionExit(Event event){
         try{
             //Ask user for confirmation on exit
@@ -286,7 +355,10 @@ public class DepositsAndPaymentsController {
                     LOGGER.log(Level.SEVERE,errorMsg);            
         }
     }
-    
+    /**
+     * Utility method for showing messages.
+     * @param errorMsg The message to be shown.
+     */
     protected void showErrorAlert(String errorMsg){
         //Shows error dialog.
         Alert alert=new Alert(Alert.AlertType.ERROR,
